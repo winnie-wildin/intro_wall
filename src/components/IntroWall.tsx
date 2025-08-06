@@ -16,10 +16,9 @@ const IntroWall = () => {
     const q = query(collection(db, "introductions"), orderBy("timestamp", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setIntros(
-        snapshot.docs.map((doc, i) => ({
+        snapshot.docs.map((doc) => ({
           id: doc.id,
           ...(doc.data() as Omit<Intro, "id">),
-          index: i, // for CSS variable
         }))
       );
     });
@@ -28,14 +27,19 @@ const IntroWall = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-gray-900 to-black">
-      {intros.map((intro, i) => (
-        <div key={intro.id} style={{ "--i": i } as React.CSSProperties}>
+    // <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6 max-w-6xl mx-auto">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-10 gap-x-6 p-6 max-w-6xl mx-auto">
+
+
+      {intros.map((intro) => (
+        <div key={intro.id}>
           <IntroCard name={intro.name} intro={intro.intro} />
         </div>
       ))}
     </div>
   );
+
+
 };
 
 export default IntroWall;
